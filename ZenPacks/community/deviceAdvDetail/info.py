@@ -1,7 +1,7 @@
 ################################################################################
 #
 # This program is part of the deviceAdvDetail Zenpack for Zenoss.
-# Copyright (C) 2008, 2009, 2010 Egor Puzanov.
+# Copyright (C) 2008, 2009, 2010, 2011 Egor Puzanov.
 #
 # This program can be used under the GNU General Public License version 2
 # You can find full information here: http://www.zenoss.com/oss
@@ -12,15 +12,16 @@ __doc__="""info.py
 
 Representation of Data Source.
 
-$Id: info.py,v 1.0 2010/06/24 12:32:04 egor Exp $"""
+$Id: info.py,v 1.1 2011/01/05 18:46:54 egor Exp $"""
 
-__version__ = "$Revision: 1.0 $"[11:-2]
+__version__ = "$Revision: 1.1 $"[11:-2]
 
 from zope.interface import implements
 from Products.Zuul.infos import ProxyProperty
 from Products.Zuul.infos.template import ThresholdInfo
 from Products.Zuul.infos.component import ComponentInfo
 from Products.Zuul.decorators import info
+from Products.ZenUtils.Utils import convToUnits
 from ZenPacks.community.deviceAdvDetail import interfaces
 
 
@@ -32,7 +33,9 @@ class StatusThresholdInfo(ThresholdInfo):
 class MemoryModuleInfo(ComponentInfo):
     implements(interfaces.IMemoryModuleInfo)
 
-    size = ProxyProperty("size")
+    @property
+    def size(self):
+        return convToUnits(self._object.size)
 
     @property
     @info
@@ -57,8 +60,14 @@ class LogicalDiskInfo(ComponentInfo):
 
     description = ProxyProperty("description")
     diskType = ProxyProperty("diskType")
-    size = ProxyProperty("size")
-    stripesize = ProxyProperty("stripesize")
+
+    @property
+    def stripesize(self):
+        return convToUnits(self._object.stripesize)
+
+    @property
+    def size(self):
+        return convToUnits(self._object.size)
 
     @property
     def status(self):
@@ -95,10 +104,13 @@ class HardDiskInfo(ComponentInfo):
 
     serialNumber = ProxyProperty("serialNumber")
     diskType = ProxyProperty("diskType")
-    size = ProxyProperty("size")
     FWRev = ProxyProperty("FWRev")
     rpm = ProxyProperty("rpm")
     bay = ProxyProperty("bay")
+
+    @property
+    def size(self):
+        return convToUnits(self._object.size, divby=1000.00)
 
     @property
     @info

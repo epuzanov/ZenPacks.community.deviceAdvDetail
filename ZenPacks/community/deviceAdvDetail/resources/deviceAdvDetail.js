@@ -66,7 +66,6 @@ ZC.MemoryModulePanel = Ext.extend(ZC.ComponentGridPanel, {
                 id: 'size',
                 dataIndex: 'size',
                 header: _t('Size'),
-                renderer: Zenoss.render.bytesString,
                 width: 70
             },{
                 id: 'monitored',
@@ -126,13 +125,11 @@ ZC.LogicalDiskPanel = Ext.extend(ZC.ComponentGridPanel, {
                 id: 'stripesize',
                 dataIndex: 'stripesize',
                 header: _t('Stripe Size'),
-                renderer: Zenoss.render.bytesString,
                 width: 70
             },{
                 id: 'size',
                 dataIndex: 'size',
                 header: _t('Size'),
-                renderer: Zenoss.render.bytesString,
                 width: 70
             },{
                 id: 'monitored',
@@ -212,7 +209,6 @@ ZC.HardDiskPanel = Ext.extend(ZC.ComponentGridPanel, {
                 id: 'size',
                 dataIndex: 'size',
                 header: _t('Size'),
-                renderer: Zenoss.render.bytesString
             },{
                 id: 'monitored',
                 dataIndex: 'monitored',

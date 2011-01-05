@@ -1,7 +1,7 @@
 ################################################################################
 #
 # This program is part of the deviceAdvDetail Zenpack for Zenoss.
-# Copyright (C) 2008, 2009, 2010 Egor Puzanov.
+# Copyright (C) 2008, 2009, 2010, 2011 Egor Puzanov.
 #
 # This program can be used under the GNU General Public License version 2
 # You can find full information here: http://www.zenoss.com/oss
@@ -12,9 +12,9 @@ __doc__="""interfaces
 
 describes the form field to the user interface.
 
-$Id: interfaces.py,v 1.1 2010/07/07 13:37:53 egor Exp $"""
+$Id: interfaces.py,v 1.2 2011/01/05 18:49:29 egor Exp $"""
 
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = "$Revision: 1.2 $"[11:-2]
 
 from Products.Zuul.interfaces import IThresholdInfo, IComponentInfo
 from Products.Zuul.form import schema
@@ -36,7 +36,7 @@ class IMemoryModuleInfo(IComponentInfo):
     manufacturer = schema.Entity(title=u"Manufacturer", readonly=True,
                                 group='Details')
     product = schema.Entity(title=u"Model", readonly=True, group='Details')
-    size = schema.Int(title=u"Size", readonly=True, group='Details')
+    size = schema.Text(title=u"Size", readonly=True, group='Details')
 
 class ILogicalDiskInfo(IComponentInfo):
     """
@@ -46,8 +46,8 @@ class ILogicalDiskInfo(IComponentInfo):
     description = schema.Text(title=u"OS Name", readonly=True,
                                 group='Details')
     diskType = schema.Text(title=u"Type", readonly=True, group='Details')
-    stripesize = schema.Int(title=u"Stripe Size", readonly=True, group='Details')
-    size = schema.Int(title=u"Size", readonly=True, group='Details')
+    stripesize = schema.Text(title=u"Stripe Size", readonly=True, group='Details')
+    size = schema.Text(title=u"Size", readonly=True, group='Details')
 
 
 class IExpansionCardInfo(IComponentInfo):
@@ -72,7 +72,7 @@ class IHardDiskInfo(IComponentInfo):
     product = schema.Entity(title=u"Model", readonly=True, group='Details')
     serialNumber = schema.Text(title=u"Serial #", readonly=True, group='Details')
     FWRev = schema.Text(title=u"Firmware", readonly=True, group='Details')
-    size = schema.Int(title=u"Size", readonly=True, group='Details')
+    size = schema.Text(title=u"Size", readonly=True, group='Details')
     diskType = schema.Text(title=u"Type", readonly=True, group='Details')
     rpm = schema.Int(title=u"RPM", readonly=True, group='Details')
     bay = schema.Int(title=u"Bay", readonly=True, group='Details')
