@@ -52,6 +52,7 @@
 
         <browser:viewlet
                  name="js-deviceadvdetail"
+                 for="Products.ZenModel.Device.Device"
                  paths="/++resource++deviceadvdetail/deviceAdvDetail.js"
                  weight="10"
                  manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"

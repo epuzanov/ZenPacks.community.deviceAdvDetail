@@ -132,7 +132,7 @@ class HardDiskInfo(ComponentInfo):
 
 class FanInfo(ComponentInfo):
     implements(interfaces.IFanInfo)
-    
+
     @property
     def rpmString(self):
         return self._object.rpmString()
@@ -149,8 +149,8 @@ class TemperatureSensorInfo(ComponentInfo):
     @property
     def tempString(self):
         tc = self._object.temperatureCelsiusString()
-	tf = self._object.temperatureFahrenheitString()
-	if tc == tf: return tc
+        tf = self._object.temperatureFahrenheitString()
+        if tc == tf: return tc
         return tc + " / " + tf
 
     @property
@@ -161,7 +161,7 @@ class TemperatureSensorInfo(ComponentInfo):
 
 class PowerSupplyInfo(ComponentInfo):
     implements(interfaces.IPowerSupplyInfo)
-    
+
     type = ProxyProperty("type")
 
     @property
