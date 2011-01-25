@@ -208,7 +208,7 @@ ZC.HardDiskPanel = Ext.extend(ZC.ComponentGridPanel, {
             },{
                 id: 'size',
                 dataIndex: 'size',
-                header: _t('Size'),
+                header: _t('Size')
             },{
                 id: 'monitored',
                 dataIndex: 'monitored',
