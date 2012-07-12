@@ -1,7 +1,7 @@
 ################################################################################
 #
 # This program is part of the deviceAdvDetail Zenpack for Zenoss.
-# Copyright (C) 2009, 2010 Egor Puzanov.
+# Copyright (C) 2009-2012 Egor Puzanov.
 #
 # This program can be used under the GNU General Public License version 2
 # You can find full information here: http://www.zenoss.com/oss
@@ -12,9 +12,9 @@ __doc__= """StatusThreshold
 Make threshold comparisons dynamic by using objects statusmap property,
 rather than just number bounds checking.
 
-$Id: StatusThreshold.py,v 1.4 2010/06/29 23:51:22 egor Exp $"""
+$Id: StatusThreshold.py,v 1.5 2012/07/12 22:40:59 egor Exp $"""
 
-__version__ = "$Revision: 1.4 $"[11:-2]
+__version__ = "$Revision: 1.5 $"[11:-2]
 
 import rrdtool
 from AccessControl import Permissions
@@ -32,7 +32,6 @@ import logging
 log = logging.getLogger('zen.StatusThreshold')
 
 from Products.ZenUtils.Utils import unused
-import types
 
 
 class StatusThreshold(ThresholdClass):
@@ -72,7 +71,7 @@ class StatusThreshold(ThresholdClass):
                                       self.dsnames,
                                       self.eventClass,
                                       self.escalateCount,
-                                      context.statusmap,
+                                      getattr(context, "statusmap", {}),
                                       context.meta_type)
         return mmt
 
@@ -85,8 +84,6 @@ StatusThresholdClass = StatusThreshold
 class StatusThresholdInstance(ThresholdInstance):
     # Not strictly necessary, but helps when restoring instances from
     # pickle files that were not constructed with a count member.
-    count = {}
-    statusmap = ''
 
     def __init__(self,id,context,dpNames,eventClass,escalateCount,statusmap,mt):
         self.count = {}
@@ -183,22 +180,21 @@ class StatusThresholdInstance(ThresholdInstance):
     def checkStatus(self, dp, value):
         'Check the value for point thresholds'
         log.debug("Checking %s %s in %s", dp, value, self.statusmap)
-        if value is None:
-            return []
-        if type(value) in types.StringTypes:
-            value = int(value)
         try:
-            status = self.statusmap.get(value, None)
-        except: return []
-        if not status: return []
+            status = self.statusmap[int(round(float(value)))]
+            context = self.context()
+            deviceName = context.deviceName
+            componentName = context.componentName
+        except Exception:
+            return []
         msg = 'threshold of %s exceeded: current status %s' %(self.name(), status[2])
-        return [dict(device=self.context().deviceName,
+        return [dict(device=deviceName,
                     summary=msg,
                     compStatus=value,
                     compClass=self.mtype,
                     eventKey=self.id,
                     eventClass=self.eventClass,
-                    component=self.context().componentName,
+                    component=componentName,
                     severity=status[1])]
 
 
