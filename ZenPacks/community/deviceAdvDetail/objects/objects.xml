@@ -3,12 +3,59 @@
 <!-- ('', 'zport', 'dmd', 'Events', 'Change', 'Set', 'Status') -->
 <object id='/zport/dmd/Events/Change/Set/Status' module='Products.ZenEvents.EventClass' class='EventClass'>
 <property type="text" id="transform" mode="w" >
-from ZenPacks.community.deviceAdvDetail import transforms
-transforms.processEvent(evt, device)
+if hasattr(evt, 'compClass') and hasattr(evt, 'compStatus'):
+    compType = evt.compClass
+    status = int(round(float(evt.compStatus)))
+else:
+    compType = None
+    statusstr = evt.message.rsplit(' ', 1)[-1]
+    status = not statusstr.replace('.','').isdigit() and 3 or int(float(round(statusstr)))
+try: comp = component
+except NameError:
+    from ZODB.transact import transact
+    for comp in device.getMonitoredComponents(type=compType):
+        if comp.id == evt.component: break
+    else:
+        comp = None
+if comp is not None:
+    evt._action = 'drop'
+    if comp.status != status:
+        @transact
+        def updateDb():
+            comp.status = status
+            if hasattr(comp, 'statusmap'):
+                col,evt.severity,state = comp.statusmap.get(status,(0,evt.severity,'Unknown'))
+                if hasattr(comp, 'state'):
+                    comp.state = state
+        updateDb()
 </property>
 <property type="text" id="transform" mode="w" >
-from ZenPacks.community.deviceAdvDetail import transforms
-transforms.processEvent(evt, device)
+if hasattr(evt, 'compClass') and hasattr(evt, 'compStatus'):
+    compType = evt.compClass
+    status = int(round(float(evt.compStatus)))
+else:
+    compType = None
+    statusstr = evt.message.rsplit(' ', 1)[-1]
+    status = not statusstr.replace('.','').isdigit() and 3 or int(float(round(statusstr)))
+try: comp = component
+except NameError:
+    from ZODB.transact import transact
+    for comp in device.getMonitoredComponents(type=compType):
+        if comp.id == evt.component: break
+    else:
+        comp = None
+if comp is not None:
+    if comp.status == status:
+        evt._action = 'drop'
+    else:
+        @transact
+        def updateDb():
+            comp.status = status
+            if hasattr(comp, 'statusmap'):
+                col,evt.severity,state = comp.statusmap.get(status,(0,evt.severity,'Unknown'))
+                if hasattr(comp, 'state'):
+                    comp.state = state
+        updateDb()
 </property>
 <property visible="True" type="string" id="zEventAction" >
 status

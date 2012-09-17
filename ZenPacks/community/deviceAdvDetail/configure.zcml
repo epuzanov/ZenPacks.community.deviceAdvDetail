@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:zcml="http://namespaces.zope.org/zcml">
 
     <configure zcml:condition="installed Products.Zuul">
+
+        <include package=".browser"/>
 
         <adapter factory=".info.StatusThresholdInfo"
                  for=".thresholds.StatusThreshold.StatusThreshold"
@@ -43,21 +44,6 @@
         <adapter factory=".info.PowerSupplyInfo"
                  for="Products.ZenModel.PowerSupply.PowerSupply"
                  provides=".interfaces.IPowerSupplyInfo"
-                 />
-
-        <browser:resourceDirectory
-                 name="deviceadvdetail"
-                 directory="resources"
-                 />
-
-        <browser:viewlet
-                 name="js-deviceadvdetail"
-                 for="Products.ZenModel.Device.Device"
-                 paths="/++resource++deviceadvdetail/deviceAdvDetail.js"
-                 weight="10"
-                 manager="Products.ZenUI3.browser.interfaces.IJavaScriptSrcManager"
-                 class="Products.ZenUI3.browser.javascript.JavaScriptSrcBundleViewlet"
-                 permission="zope2.Public"
                  />
     </configure>
 </configure>
