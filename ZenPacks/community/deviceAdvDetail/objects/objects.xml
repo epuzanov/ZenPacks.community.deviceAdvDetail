@@ -9,7 +9,7 @@ if hasattr(evt, 'compClass') and hasattr(evt, 'compStatus'):
 else:
     compType = None
     statusstr = evt.message.rsplit(' ', 1)[-1]
-    status = not statusstr.replace('.','').isdigit() and 3 or int(float(round(statusstr)))
+    status = not statusstr.replace('.','').isdigit() and 3 or int(round(float(statusstr)))
 try: comp = component
 except NameError:
     from ZODB.transact import transact
@@ -24,7 +24,7 @@ if comp is not None:
         def updateDb():
             comp.status = status
             if hasattr(comp, 'statusmap'):
-                col,evt.severity,state = comp.statusmap.get(status,(0,evt.severity,'Unknown'))
+                col,evt.severity,state = comp.statusmap.get(status) or (0,evt.severity,'Unknown')
                 if hasattr(comp, 'state'):
                     comp.state = state
         updateDb()
@@ -36,7 +36,7 @@ if hasattr(evt, 'compClass') and hasattr(evt, 'compStatus'):
 else:
     compType = None
     statusstr = evt.message.rsplit(' ', 1)[-1]
-    status = not statusstr.replace('.','').isdigit() and 3 or int(float(round(statusstr)))
+    status = not statusstr.replace('.','').isdigit() and 3 or int(round(float(statusstr)))
 try: comp = component
 except NameError:
     from ZODB.transact import transact
@@ -52,7 +52,7 @@ if comp is not None:
         def updateDb():
             comp.status = status
             if hasattr(comp, 'statusmap'):
-                col,evt.severity,state = comp.statusmap.get(status,(0,evt.severity,'Unknown'))
+                col,evt.severity,state = comp.statusmap.get(status) or (0,evt.severity,'Unknown')
                 if hasattr(comp, 'state'):
                     comp.state = state
         updateDb()
