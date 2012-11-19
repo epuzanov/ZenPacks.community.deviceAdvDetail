@@ -5,7 +5,7 @@
 NAME = "ZenPacks.community.deviceAdvDetail"
 VERSION = "2.9.0"
 AUTHOR = "Egor Puzanov"
-LICENSE = ""
+LICENSE = "GPLv2"
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.community']
 PACKAGES = ['ZenPacks', 'ZenPacks.community', 'ZenPacks.community.deviceAdvDetail']
 INSTALL_REQUIRES = []
