@@ -41,7 +41,7 @@ user.
 
     ::
 
-        zenpack --install ZenPacks.community.deviceAdvDetail-2.9.egg
+        zenpack --install ZenPacks.community.deviceAdvDetail-2.9.0.egg
         zenoss restart
 
 Developer Installation (link mode)
