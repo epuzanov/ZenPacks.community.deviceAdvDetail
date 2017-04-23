@@ -29,6 +29,9 @@ You must first have, or install, Zenoss 2.5.2 or later. This ZenPack was tested
 against Zenoss 2.5.2, Zenoss 3.2 and Zenoss 4.2. You can download the free Core
 version of Zenoss from http://community.zenoss.org/community/download.
 
+StatusThreshold.py which is responsible for graphing rrdtool data pre Zenoss 5 has
+been modified in this fork it now works and has been adapted Tested in Zenoss 5.
+
 Installation
 ============
 
@@ -41,7 +44,7 @@ user.
 
     ::
 
-        zenpack --install ZenPacks.community.deviceAdvDetail-2.9.0.egg
+        zenpack --install ZenPacks.community.deviceAdvDetail-2.9.1.egg
         zenoss restart
 
 Developer Installation (link mode)
